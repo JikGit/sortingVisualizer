@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting visualizer</title>
+    <link rel="stylesheet" href="./main.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+</head>
+<body>
+	<div id="menuButton">
+		<i class="fas fa-bars open"></i>
+	</div>
+	<div id="sideBar" class="close">
+		<form>
+			<h2 id="tipoAlgoritmo" >Tipo di algoritmo
+					<div class="form-input">
+						<input id="ExchangeScelta" type="radio" name="nomeAlgoritmo" value="no">
+						<label for="ExchangeScelta">Exchange Sort</label>
+						<input id="BubbleScelta" type="radio"  name=nomeAlgoritmo value="no">
+						<label for="BubbleScelta">Bubble Sort</label>
+					</div>
+			</h2>
+			<h2 id="delayAlgoritmo" >Delay Algoritmo
+					<div class="form-input">
+						<input id="delay" type="text" name="Delay">
+						<label for="delay">Inserisci il delay (ms)</label>
+					</div>
+			</h2>
+			<div id="submit" >Invio</div>
+		</form>
+	</div>
+    <h1 class="title">Sorting Visualizer</h1>
+	<div id="main"></div>
+	<div class="btnContainer">
+		<button id="btn" class="btn previus">Previus step</button>
+		<button id="btn" class="btn next">Next step</button>
+		<button id="btn" class="btn veloce">Next Veloce</button>
+		<button id="btn" class="btn stop">Stop Veloce</button>
+	</div>
+    <script src="./algorithm/algoritmi.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>
