@@ -1,11 +1,15 @@
+const main = document.querySelector("#main");
 const btnNext = document.querySelector(".btn.next");
 const btnPrevius = document.querySelector(".btn.previus");
 const btnVeloce = document.querySelector(".btn.veloce");
-const btnStopVeloce = document.querySelector(".btn.stop");
-const btnMenu = document.querySelector("#menuButton .open");
+const btnStopVeloce = document.querySelector(".btn.stop"); const btnMenu = document.querySelector("#menuButton .open");
 const sideBar = document.querySelector("#sideBar");
 const submit = document.querySelector("#submit");
+const resetArray = document.querySelector("#resetArray");
 const delayInput = document.querySelector("#delayAlgoritmo input");
+const nElementiInput = document.querySelector("#numeroElementi input");
+
+//colori
 const primoColore = getComputedStyle(document.documentElement).getPropertyValue("--primoColore");
 const secondoColore = getComputedStyle(document.documentElement).getPropertyValue("--secondoColore");
 const baseColore = getComputedStyle(document.documentElement).getPropertyValue("--bar");
@@ -26,55 +30,70 @@ var step = -1;
 //variabile per fermare il veloce
 var fermaVeloce = false;
 var Exchange = false, Bubble = true;
-var onGoing = false;
 
-
-const nElement = 100;
+var nElement = 100;
 const maxHeight = 500;
 var delayTime = 20;
-const rangeFrequenza = [300, 800];
+const rangeFrequenza = [0, 1800];
 
-//creo gli elementi
-createElement();
-//gli setto una grandeza
-setWidth();
-//creo una randomica altezza
-listHeightDefault = createHeight();
-listHeight = copyArray(listHeightDefault, listHeight);
-//aggiorno le altezze data listHeight
-setHeight(listHeight);
-//sceglo un algoritmo di default
-sceltaAlgoritmo();
+//creo tutti gli elementi
+setupPage();
 
 //apro la sidebar
 btnMenu.addEventListener("click", () => {
 	sideBar.classList.toggle("close");
-	if (onGoing){
-		if (fermaVeloce){
-			btnVeloce.click();
-		}else{
-			fermaVeloce = true;
-		}
-	}
+	fermaVeloce = true;
 });
 
-//chidu la sidebar se premo invio
+//chiudo la sidebar se premo invio
 submit.addEventListener("click", () => {
 	var radios = document.getElementsByName('nomeAlgoritmo');
+	var sceltaFatta = false;
     for (var radio of radios) {
 		if (radio.checked){
 			if (radio.id == "ExchangeScelta"){
-				Exchange = true;
+				if (!Exchange){
+					Exchange = true;
+					sceltaFatta = true;
+				}
 			}else if(radio.id == "BubbleScelta"){
-				Bubble = true;
+				if (Bubble){
+					Bubble = true;
+					sceltaFatta = true;
+				}
 			}
 		}
 	}
 	if (!isNaN(delayInput.value) && delayInput.value != ""){
 		delayTime = delayInput.value;
 	}
+	if (!isNaN(nElementiInput.value) && nElementiInput.value != ""){
+		listElm = [];
+		listHeight = [];
+		nElement = nElementiInput.value;
+		//ricreo la pagina con il nuovo nElement
+		removeAllBar();
+		setupPage();
+	}
 	sideBar.classList.add("close");
-	sceltaAlgoritmo();
+	//se e' stato scelto un algoritmo metto apposto l'array
+	if (sceltaFatta){
+		sceltaAlgoritmo();
+	}
+});
+
+//resetta l'array se premo reset
+resetArray.addEventListener("click", () => {
+	submit.click();
+	//rimuovo gli eventuali vecchi colori
+	if (step >= 0 && step < elmUsati.length){
+		setColor(listElm, elmUsati[step][0], baseColore);
+		setColor(listElm, elmUsati[step][1], baseColore);
+	}
+	listHeight = copyArray(listHeightDefault, listHeight);
+	step = 0;
+	//aggiorno le altezze data listHeight
+	setHeight(listHeight);
 });
 
 //fermo il veloce
@@ -121,22 +140,23 @@ btnPrevius.addEventListener("click", () => {
 });
 
 btnVeloce.addEventListener("click", cicleStep);
+//puo' capitare che facendo vari Next Veloce insieme si possano creare diversi loop che portano a problemi, i multeplici controllo si step < elmUsati.length elminano il problema
 //funzione async per aspettare il delay
 async function cicleStep(){
 	fermaVeloce = false;
-	onGoing = true;
 	while (step < elmUsati.length && !fermaVeloce){
 		await delay(delayTime);
 		step++;
 		//rimuovo il vecchio colore se non e' il primo step
-		if (step > 0){
+		if (step > 0 && step < elmUsati.length){
 			setColor(listElm, elmUsati[step-1][0], baseColore);
 			setColor(listElm, elmUsati[step-1][1], baseColore);
 		}
-		//aggiorno le altezze
-		setHeight(listStep[step]);
 		//se non e' l'ultimo array metto i colori
-		if (step != elmUsati.length){
+		if (step < elmUsati.length){
+			//aggiorno le altezze
+			setHeight(listStep[step]);
+			
 			setColor(listElm, elmUsati[step][0], primoColore);
 			setColor(listElm, elmUsati[step][1], secondoColore);
 			//faccio il suono
@@ -144,6 +164,7 @@ async function cicleStep(){
 		}
 	}
 	if (!fermaVeloce){
+		fermaVeloce = true;
 		//primo rosso
 		setColor(listElm, 0, primoColore);
 		for (let i = 1; i < nElement; i++){
@@ -154,6 +175,7 @@ async function cicleStep(){
 		}
 		await delay(delayTime);
 		setColor(listElm, nElement-1, baseColore);
+		step = elmUsati.length;
 	}
 }
 
@@ -216,7 +238,7 @@ function createSound(frequency, time){
 
 //SORTING CALL
 function sceltaAlgoritmo(){
-	if (step >= 0){
+	if (step >= 0 && step != elmUsati.length){
 		//resetto gli eventuali colori e gli step
 		setColor(listElm, elmUsati[step][0], baseColore);
 		setColor(listElm, elmUsati[step][1], baseColore);
@@ -242,4 +264,25 @@ function copyArray(arr1, arr2){
 		arr2[i] = arr1[i];
 	}
 	return arr2;
+}
+
+function removeAllBar(){
+    var allElement = document.querySelectorAll(".bar");
+    for (elm of allElement) {
+        main.removeChild(elm);
+    }
+}
+
+function setupPage(){
+	//creo gli elementi
+	createElement();
+	//gli setto una grandeza
+	setWidth();
+	//creo una randomica altezza
+	listHeightDefault = createHeight();
+	listHeight = copyArray(listHeightDefault, listHeight);
+	//aggiorno le altezze data listHeight
+	setHeight(listHeight);
+	//sceglo un algoritmo di default
+	sceltaAlgoritmo();
 }

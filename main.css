@@ -4,12 +4,19 @@
 }
 
 :root{
+	/* --background: #a8dadc; */
+	/* --text: #e63946; */
+	/* --bar: #F1FAEE; */
+	/* --primoColore: #1D3557; */
+	/* --secondoColore: #E63946; */
 	--background: #a8dadc;
-	--text: #e63946;
-	--bar: #F1FAEE;
-	--primoColore: #1D3557;
-	--secondoColore: #E63946;
+	--text: #ef476f;
+	--textButton: black;
+	--bar: #073b4c;
+	--primoColore: #ffd166;
+	--secondoColore: #06d6a0;
 }
+
 
 body{
     background-color: var(--background);
@@ -41,14 +48,13 @@ label{
 #sideBar{
 	height: 100vh;
 	width: 400px;
-	/* background: #9003fc; */
-	background: linear-gradient(90deg, #1D3557, #A8DADC);
+	background: linear-gradient(90deg, var(--bar), var(--background));
 	border-top-right-radius: 40px;
 	border-bottom-right-radius: 40px;
 	position: absolute;
 	top: 0;
 	transition: width 1s ease;
-	font-size: 40px;
+	font-size: 35px;
 	padding-top: 100px;
 }
 
@@ -57,12 +63,13 @@ label{
 	font-size: 0;
 }
 
+#numeroElementi,
 #delayAlgoritmo,
 #tipoAlgoritmo{
 	font-size: inherit;
-    color: black;
+    color: var(--textButton);
 	font-weight: bold;
-	margin: 40px;
+	margin: 38px;
 }
 
 #submit,
@@ -85,7 +92,7 @@ label{
 
 #sideBar:not(.close) #tipoAlgoritmo label{
 	display: inline-block;
-	background-color: cadetblue;
+	background-color: var(--background);
     padding: 10px 20px;
     font-family: sans-serif, Arial;
     font-size: 16px;
@@ -98,15 +105,25 @@ label{
     border: 3px solid white;
 }
 
+#sideBar:not(.close) #numeroElementi input,
 #sideBar:not(.close) #delayAlgoritmo input{
 	width: 50px;
 }
 
+#sideBar:not(.close) #numeroElementi label,
 #sideBar:not(.close) #delayAlgoritmo label{
 	font-size: 17px;
 	font-weight: normal;
 }
 
+#buttons{
+	width: 100%;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#sideBar:not(.close) #resetArray,
 #sideBar:not(.close) #submit{
 	text-align: center;
 	line-height: 40px;
@@ -114,7 +131,7 @@ label{
 	height: 40px;
 	border: none;
 	color: black;
-	background-color: cadetblue;
+	background-color: var(--background);
 	border-radius: 7px;
 	font-size: 20px;
 	margin: auto;
