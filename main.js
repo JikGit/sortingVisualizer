@@ -2,7 +2,8 @@ const main = document.querySelector("#main");
 const btnNext = document.querySelector(".btn.next");
 const btnPrevius = document.querySelector(".btn.previus");
 const btnVeloce = document.querySelector(".btn.veloce");
-const btnStopVeloce = document.querySelector(".btn.stop"); const btnMenu = document.querySelector("#menuButton .open");
+const btnStopVeloce = document.querySelector(".btn.stop"); 
+const btnMenu = document.querySelector("#menuButton .open");
 const sideBar = document.querySelector("#sideBar");
 const submit = document.querySelector("#submit");
 const resetArray = document.querySelector("#resetArray");
@@ -116,7 +117,7 @@ btnNext.addEventListener("click", () => {
 			setColor(listElm, elmUsati[step][0], primoColore);
 			setColor(listElm, elmUsati[step][1], secondoColore);
 			//faccio il suono
-			createSound(listHeight[elmUsati[step][0]], 0.1);
+			// createSound(listHeight[elmUsati[step][0]], 0.1);
 		}
 	}
 });
@@ -133,7 +134,7 @@ btnPrevius.addEventListener("click", () => {
 		setColor(listElm, elmUsati[step][0], primoColore);
 		setColor(listElm, elmUsati[step][1], secondoColore);
 		//faccio il suono
-		createSound(listHeight[elmUsati[step][0]], 0.2);
+		// createSound(listHeight[elmUsati[step][0]], 0.2);
 		//aggiorno le altezze
 		setHeight(listStep[step]);
 	}
@@ -160,7 +161,7 @@ async function cicleStep(){
 			setColor(listElm, elmUsati[step][0], primoColore);
 			setColor(listElm, elmUsati[step][1], secondoColore);
 			//faccio il suono
-			createSound(listHeight[elmUsati[step][0]], 0.1);
+			// createSound(listHeight[elmUsati[step][0]], 0.1);
 		}
 	}
 	if (!fermaVeloce){
